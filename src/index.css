@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-background: #0D1A63;
+  --color-surface: #1A2CA3;
+  --color-primary: #2845D6;
+  --color-accent: #F68048;
+}
+
+@layer base {
+  body {
+    @apply text-white antialiased;
+    font-family: 'Open Sans', sans-serif;
+    background-color: var(--color-background);
+    background-attachment: fixed;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-white/10 backdrop-blur-md border border-white/20;
+  }
+}
