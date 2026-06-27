@@ -10,7 +10,7 @@ const NavButton = ({ children }) => {
 
 const Navbar = () => {
     return (
-        <div className="sticky top-0 flex items-center px-8 py-4 border-b-2 border-white/15">
+        <div className="sticky top-0 flex items-center px-8 py-4 border-b-2 border-white/15 z-1">
 
             <div className="flex items-center gap-3">
                 <img
