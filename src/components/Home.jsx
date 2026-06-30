@@ -125,6 +125,25 @@ const Home = () => {
         window.matchMedia('(prefers-reduced-motion: reduce)').matches
     )
 
+    const CheckBadge = () => {
+        return (
+            <span className="relative w-5 h-5 rounded-full bg-accent/70 flex items-center justify-center">
+                <span className="text-background text-xs font-semibold">
+                    ✓
+                </span>
+            </span>
+        );
+    };
+
+    const Feature = ({ children }) => (
+        <div className="flex items-center gap-2">
+            <CheckBadge />
+            <span className="text-xs font-semibold text-white/70">
+                {children}
+            </span>
+        </div>
+    );
+
     useEffect(() => {
         const el = headlineRef.current
         if (!el) return
@@ -196,7 +215,7 @@ const Home = () => {
                         width: cfg.size,
                         height: cfg.size,
                         filter: `blur(${cfg.blur}px)`,
-                        willChange: 'transform',
+                        willChange: "transform",
                     }}
                 />
             ))}
@@ -205,6 +224,7 @@ const Home = () => {
                 ref={headlineRef}
                 className="relative z-10 flex flex-col items-start px-16 pt-24"
             >
+                {/* Badge */}
                 <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-accent/30 bg-accent/8 backdrop-blur-sm mb-6">
                     <span className="w-2 h-2 rounded-full bg-accent animate-pulse shadow-[0_0_8px_theme(colors.accent)]" />
                     <span className="text-accent text-xs font-medium tracking-widest uppercase">
@@ -212,14 +232,36 @@ const Home = () => {
                     </span>
                 </div>
 
+                {/* Heading */}
                 <h1 className="text-[clamp(3rem,6vw,5rem)] font-semibold leading-[1.05] tracking-tight text-white/90 mb-1">
                     Money that
                 </h1>
+
                 <h2 className="text-[clamp(3rem,6vw,5rem)] font-semibold leading-[1.05] tracking-tight bg-gradient-to-r from-primary via-accent to-accent/70 bg-clip-text text-transparent">
                     Moves with you
                 </h2>
+
+                {/* Description */}
+                <p className="w-[600px] ml-2 py-5 text-white/70 text-xl font-semibold">
+                    Track expenses, manage budgets, and monitor your financial
+                    progress with a platform designed to adapt to every stage of
+                    your journey.
+                </p>
+
+                {/* CTA */}
+                <button className="ml-2 mt-2 px-5 h-10 border-2 border-accent/70 rounded-lg font-semibold text-accent transition-all duration-300 hover:bg-accent/8 hover:text-white">
+                    Start for Free
+                </button>
+
+                {/* Features */}
+                <div className="mt-5 ml-2 flex flex-wrap items-center gap-x-8 gap-y-3">
+                    <Feature>No Credit Card Required</Feature>
+                    <Feature>Free Forever Plan</Feature>
+                    <Feature>Secure & Encrypted</Feature>
+                </div>
             </div>
         </section>
+
     )
 }
 
