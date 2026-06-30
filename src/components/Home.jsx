@@ -6,6 +6,8 @@ const orbConfigs = [
     { top: '70%', left: '15%', size: 110, color: 'bg-accent/10',  blur: 60, multiplier: 6, scaleStep: 0.08 },
 ]
 
+const barHeights = [45, 70, 55, 85, 38, 62, 90, 50, 75, 40]
+
 const BackgroundArt = () => (
     <svg
         viewBox="0 0 1200 500"
@@ -110,6 +112,95 @@ const BackgroundArt = () => (
         <circle cx="200" cy="200" r="1.5" fill="#ffffff" opacity="0.25" />
         <circle cx="950" cy="60" r="1.5" fill="#ffffff" opacity="0.3" />
     </svg>
+)
+
+const Stat = ({ label, value, valueClass = 'text-white/90' }) => (
+    <div className="rounded-xl bg-white/5 p-3">
+        <div className="text-[11px] text-white/45 mb-1.5">{label}</div>
+        <div className={`text-base font-semibold ${valueClass}`}>{value}</div>
+    </div>
+)
+
+const FloatChip = ({ className, iconBg, iconColor, label, value, path }) => (
+    <div
+        className={`absolute z-30 flex items-center gap-2.5 rounded-xl border border-white/10 bg-surface/95 px-3.5 py-3 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.6)] [transform:translateZ(60px)] [animation:floatChip_6s_ease-in-out_infinite] ${className}`}
+    >
+        <span
+            className="flex h-7.5 w-7.5 shrink-0 items-center justify-center rounded-lg"
+            style={{ background: iconBg }}
+        >
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={iconColor} strokeWidth="2.5">
+                <path d={path} />
+            </svg>
+        </span>
+        <span className="leading-tight">
+            <span className="block text-[10px] text-white/45">{label}</span>
+            <span className="block text-sm font-semibold text-white/90">{value}</span>
+        </span>
+    </div>
+)
+
+const DashboardPreview = () => (
+    <div className="relative hidden w-[480px] scale-120 shrink-0 [perspective:1800px] lg:block">
+
+        <div className="absolute -top-10 right-[-10%] h-[420px] w-[420px] rounded-full bg-accent/15 blur-3xl" />
+
+        <div
+            className="relative z-10 [transform-style:preserve-3d] [animation:floatTilt_7s_ease-in-out_infinite] [transform:rotateX(8deg)_rotateY(-20deg)_rotateZ(2deg)]"
+        >
+            <div className="relative w-full rounded-2xl border border-white/10 bg-surface/95 p-5 shadow-[40px_60px_80px_-30px_rgba(0,0,0,0.65)] backdrop-blur-sm">
+                <div className="mb-5 flex justify-between">
+                    <span className="rounded-full bg-white/5 px-3 py-1 font-mono text-[11px] text-white/55">Last 30 days</span>
+                    <span className="rounded-full bg-white/5 px-3 py-1 font-mono text-[11px] text-white/55">All accounts</span>
+                </div>
+
+                <div className="mb-5 grid grid-cols-3 gap-3">
+                    <Stat label="Income" value="$6,420" />
+                    <Stat label="Spending" value="$3,180" />
+                    <Stat label="Saved" value="$3,240" valueClass="text-emerald-400" />
+                </div>
+
+                <div className="flex h-24 items-end gap-2 rounded-xl bg-background/40 p-3">
+                    {barHeights.map((h, i) => (
+                        <div
+                            key={i}
+                            className={`flex-1 rounded-t-sm ${
+                                i % 2
+                                    ? 'bg-gradient-to-t from-primary to-primary/30'
+                                    : 'bg-gradient-to-t from-accent to-accent/30'
+                            }`}
+                            style={{ height: `${h}%` }}
+                        />
+                    ))}
+                </div>
+            </div>
+
+            <FloatChip
+                className="-top-4 left-3 [animation-delay:0s]"
+                iconBg="rgba(68,104,245,0.15)"
+                iconColor="#4468f5"
+                label="Net worth"
+                value="+4.8%"
+                path="M7 17L17 7M7 7h10v10"
+            />
+            <FloatChip
+                className="bottom-12 -left-12 [animation-delay:1.2s]"
+                iconBg="rgba(255,255,255,0.08)"
+                iconColor="#cfd4f7"
+                label="Goal: Emergency fund"
+                value="70% complete"
+                path="M12 7v5l3 3M21 12a9 9 0 1 1-9-9"
+            />
+            <FloatChip
+                className="top-[64%] -right-8 [animation-delay:2.4s]"
+                iconBg="rgba(16,185,129,0.15)"
+                iconColor="#34d399"
+                label="Budget"
+                value="On track"
+                path="M20 6L9 17l-5-5"
+            />
+        </div>
+    </div>
 )
 
 const Home = () => {
@@ -222,46 +313,51 @@ const Home = () => {
 
             <div
                 ref={headlineRef}
-                className="relative z-10 flex flex-col items-start px-16 pt-24"
+                className="relative z-10 flex items-center justify-between gap-12 px-16 pt-24"
             >
-                {/* Badge */}
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-accent/30 bg-accent/8 backdrop-blur-sm mb-6">
-                    <span className="w-2 h-2 rounded-full bg-accent animate-pulse shadow-[0_0_8px_theme(colors.accent)]" />
-                    <span className="text-accent text-xs font-medium tracking-widest uppercase">
-                        Intelligence Finance OS
-                    </span>
+                <div className="flex flex-col items-start">
+                    {/* Badge */}
+                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-accent/30 bg-accent/8 backdrop-blur-sm mb-6">
+                        <span className="w-2 h-2 rounded-full bg-accent animate-pulse shadow-[0_0_8px_theme(colors.accent)]" />
+                        <span className="text-accent text-xs font-medium tracking-widest uppercase">
+                            Intelligence Finance OS
+                        </span>
+                    </div>
+
+                    {/* Heading */}
+                    <h1 className="text-[clamp(3rem,6vw,5rem)] font-semibold leading-[1.05] tracking-tight text-white/90 mb-1">
+                        Money that
+                    </h1>
+
+                    <h2 className="text-[clamp(3rem,6vw,5rem)] font-semibold leading-[1.05] tracking-tight bg-gradient-to-r from-primary via-accent to-accent/70 bg-clip-text text-transparent">
+                        Moves with you
+                    </h2>
+
+                    {/* Description */}
+                    <p className="w-[600px] ml-2 py-5 text-white/70 text-xl font-semibold">
+                        Track expenses, manage budgets, and monitor your financial
+                        progress with a platform designed to adapt to every stage of
+                        your journey.
+                    </p>
+
+                    {/* CTA */}
+                    <button className="ml-2 mt-2 px-5 h-10 border-2 border-accent/70 rounded-lg font-semibold text-accent transition-all duration-300 hover:bg-accent/8 hover:text-white">
+                        Start for Free
+                    </button>
+
+                    {/* Features */}
+                    <div className="mt-5 ml-2 flex flex-wrap items-center gap-x-8 gap-y-3">
+                        <Feature>No Credit Card Required</Feature>
+                        <Feature>Free Forever Plan</Feature>
+                        <Feature>Secure & Encrypted</Feature>
+                    </div>
                 </div>
 
-                {/* Heading */}
-                <h1 className="text-[clamp(3rem,6vw,5rem)] font-semibold leading-[1.05] tracking-tight text-white/90 mb-1">
-                    Money that
-                </h1>
-
-                <h2 className="text-[clamp(3rem,6vw,5rem)] font-semibold leading-[1.05] tracking-tight bg-gradient-to-r from-primary via-accent to-accent/70 bg-clip-text text-transparent">
-                    Moves with you
-                </h2>
-
-                {/* Description */}
-                <p className="w-[600px] ml-2 py-5 text-white/70 text-xl font-semibold">
-                    Track expenses, manage budgets, and monitor your financial
-                    progress with a platform designed to adapt to every stage of
-                    your journey.
-                </p>
-
-                {/* CTA */}
-                <button className="ml-2 mt-2 px-5 h-10 border-2 border-accent/70 rounded-lg font-semibold text-accent transition-all duration-300 hover:bg-accent/8 hover:text-white">
-                    Start for Free
-                </button>
-
-                {/* Features */}
-                <div className="mt-5 ml-2 flex flex-wrap items-center gap-x-8 gap-y-3">
-                    <Feature>No Credit Card Required</Feature>
-                    <Feature>Free Forever Plan</Feature>
-                    <Feature>Secure & Encrypted</Feature>
+                <div className="-translate-x-25 translate-y-20">
+                    <DashboardPreview />
                 </div>
             </div>
         </section>
-
     )
 }
 

@@ -22,3 +22,14 @@
     @apply bg-white/10 backdrop-blur-md border border-white/20;
   }
 }
+
+
+@keyframes floatTilt {
+  0%, 100% { transform: rotateX(8deg) rotateY(-20deg) rotateZ(2deg) translateY(0px); }
+  50%      { transform: rotateX(6deg) rotateY(-18deg) rotateZ(2deg) translateY(-12px); }
+}
+
+@keyframes floatChip {
+  0%, 100% { transform: translateZ(60px) translateY(0px); }
+  50%      { transform: translateZ(60px) translateY(-10px); }
+}
